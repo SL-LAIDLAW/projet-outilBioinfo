@@ -1,0 +1,42 @@
+---
+title: 'Projet HMSN204'
+author: BLAISON, LAIDLAW
+date: Jeudi, 11 avril  2019
+output:
+  beamer_presentation:
+    pandoc_args: ["-V", "lang=fr-FR"] # so latex can handle french accents
+    theme: "metropolis"
+    highlight: zenburn # syntax highlighting chose from "tango", "pygments", "kate", "zenburn", and "github"
+    latex_engine: xelatex # "pdflatex", "xelatex", or "lualatex"
+---
+
+# Alignement Globale
+<++>
+
+- Example Table:
+
+{\small
+
+```
+        G  C  A  T  G  A  C  T  A   A   C   G   T   A   A
+    0  -1 -2 -3 -4 -5 -6 -7 -8 -9 -10 -11 -12 -13 -14 -15
+G  -1   1  0 -1 -2 -1 -2 -3 -4 -5  -6  -7  -6  -7  -8  -9
+C  -2   0  2  1  0 -1 -2 -1 -2 -3  -4  -3  -4  -5  -6  -7
+C  -3  -1  3  2  1  0 -1  0 -1 -2  -3  -2  -3  -4  -5  -6
+T  -4  -2  2  2  3  2  1  0  1  0  -1  -2  -3  -2  -3  -4
+T  -5  -3  1  1  4  3  2  1  2  1   0  -1  -2  -1  -2  -3
+A  -6  -4  0  2  3  3  4  3  2  3   4   3   2   1   2   3
+C  -7  -5  1  1  2  2  3  5  4  3   3   5   4   3   2   2
+T  -8  -6  0  0  3  2  2  4  6  5   4   4   4   5   4   3
+A  -9  -7 -1  1  2  2  3  3  5  7   8   7   6   5   6   7
+A -10  -8 -2  2  1  1  4  3  4  8   9   8   7   6   7   8
+A -11  -9 -3  3  2  1  5  4  3  9  10   9   8   7   8   9
+T -12 -10 -4  2  4  3  4  4  5  8   9   9   8   9   8   8
+C -13 -11 -3  1  3  3  3  5  4  7   8  10   9   8   8   7
+G -14 -10 -4  0  2  4  3  4  4  6   7   9  11  10   9   8
+T -15 -11 -5 -1  3  3  3  3  5  5   6   8  10  12  11  10
+A -16 -12 -6  0  2  2  4  3  4  6   7   7   9  11  13  14
+A -17 -13 -7  1  1  1  5  4  3  7   8   7   8  10  14  15
+```
+
+}
