@@ -16,7 +16,7 @@ header-includes:
 ---
 
 ## Introduction
-![Gantt Diagram](../img/gantt_2.png){height=95%}
+![Diagramme de cas d'utilisation](../img/Cas_utilisation.svg){height=95%}
 
 ## Vue d'Ensemble
 ![Biopython Sequence Diagram](../img/AlignmentGlobale.svg){height=95%}
