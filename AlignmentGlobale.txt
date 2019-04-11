@@ -1,0 +1,25 @@
+activate Bipython
+Bipython<-User:Identifiant Genebank
+Bipython-->User:mRNA fasta
+deactivate Bipython
+
+activate AlignSeq
+activate Pandas
+User->AlignSeq:SeqA, SeqB
+AlignSeq->Pandas:InitializeTable(len(SeqA),len(SeqB))
+AlignSeq<--Pandas:DataFrame object
+AlignSeq->Pandas:PopulateTables(SeqA,SeqB,df)
+AlignSeq<--Pandas:Populated DataFrames
+
+AlignSeq->Pandas:Traceback(df,df_loc)
+AlignSeq<--Pandas:Aligned Sequences
+User<--AlignSeq:Aligned Sequences
+deactivate Pandas
+deactivate AlignSeq
+
+activate Bipython
+Bipython<-User:GC(SeqA)
+Bipython-->User:GC%
+Bipython<-User:translate(SeqA)
+Bipython-->User:protein sequence of SeqA
+deactivate Bipython
