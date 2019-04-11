@@ -41,14 +41,23 @@ abstract: "Voici un abstract super intelligent Sed ut perspiciatis unde omnis is
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Titre eample
-voici du contenu blah blah
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+# Introduction
+
+Au début du projet nous avons tout d'abord eu une phase de réfexion initiale dsur le projet.
+Nous avons ainsi établi le diagramme de Gantt suivant.
 
 \begin{figure}[h]
  \centering
  \includegraphics{Gantt.pdf}
  \caption{Diagramme de Gantt détaillant le partage des responsabilités par rapport au temps}
+\end{figure}
+
+De cette réflexion initiale surle projet nous avons pu en établir le diagramme de cas d'utilisation suivant.
+
+\begin{figure}[h]
+ \centering
+ \includegraphics{Cas_utilisation.pdf}
+ \caption{Diagramme de Cas d'Utilisation}
 \end{figure}
 
 # Traitements Biopythons et manipulation des séquences
@@ -111,5 +120,71 @@ Afin d'essayer de contourner le problème, des optimisations ont été recherch�
 
 Table: Comparaisons d'optimisations et performances
 
+#Base de données
+
+##Réflexion sur la base de données
+
+On a eu le choix d’un des SGBD vu ce semestre : chado/postgresql (module phenotype), relationnel seul (oracle, postgresqlou mysql), neo4j, couchdb, triplestore jena/rdf.
 
 
+Notre choix s'est ainsi porté sur la base de données Chado. Celle-ci est conçue spécialement pour gérer les représentations complexes de données biologiques. Chado va également posséder des modules permettant de gérer spécifiquement les relations entre termes ontologiques. Pour créer sa base de données Chado utilise le système de gestion PostgreSQL. Ayant deja des bases en SQL , ce choix nous a ainsi paru judicieux pour pouvoir réaliser une implémentation correcte de la base de données avec un temps limité et la taille de notre groupe.
+
+##Modélisation de la base de données
+
+Avant de nous lancer dans la création de notre base de donnée il faut d'abord la penser. Pour ce faire le meilleur moyen est de se représenter la base de données visuellement à l'aide d'un shéma UML et plus particulièrement d'un diagramme de classes. Notre bases de données se divise en "deux" parties. Une gérant les données issues des expérimentations des M1 BFP et l'autre gérant les termes d'ontologies. Un lien est fait entre ces 2 parties au niveau de la table phénotype. Avec le recul cette manière de faire n'était probablement pas la meilleure et des améliorations doivent être apportés principalement pour la partie gérant l'ontologie.
+
+Nous retrouvons ansi avec une base de données corrspondant au diagramme de classe suivant:
+
+\begin{figure}[h]
+ \centering
+ \includegraphics{class_diagram.pdf}
+ \caption{Diagramme de classe}
+\end{figure}
+
+
+##Ontologie
+
+Il a ainsi fallu penser à la manière d'intégrer l'ontologie dans notre base de données . L'ontologie va représenter des concepts (comme une caractéristique phénotypique) et les relations que ces concepts peuvent partager. Dans notre cas on s'est intéressé à rechercher les relations entre les termes ontologiques constituant les phénotypes observés et mesurés par les étudiants BFP. Pour ce faire ces phénotypes ont été "décomposé" en plusieurs et leur terme ontologique ont été associé en une relation. Par exemple, la longueur de la racine primaire va corrrespondre à une longueur de racine (possédant son terme ontologique) qui ferait partie (is part of) d'une racine primaire(possédant aussi son propre terme ontologique). ces données générées seront ensuite insérées dans notre base de données. Ces données peuvent être récupérées grâce à de nombreuses ressources regroupant les termes d'ontologies appartenant à un même "groupe". 
+
+
+##Implémentation bases de données et peuplement
+
+###Création des tables
+
+Afin de créer les tables un script SQL de création de ces tables à été écrit. Celui-ci va constituer dans un premier temps en la destruction des tables et de leurs contraintes dans le cas à l'aide d'un drop table. Il va ensuite permettre de construire ces tables en affectant les clefs primaires et étrangères appropriés à chaque table.
+
+Afin de générer les tables nécessaires à l'ontologie, le module cv de Chado à été utilisé. Je me rends compte cependant à l'écriture de ce rapport que  j'ai mal compris et mal utilisé ce module cv, notamment en n'utilisant pas la table cv_term relationship.
+
+###Insertion des données dans les tuples
+
+Afin de ne pas avoir à insérer les données issues du document csv qui nous a été fourni manuellement dans nos tuples une réorganisation de celles-ci a été effectué. Celle-ci ont ainsi été redistribuées sur plusieurs fichier csv correspondant chacun à une table donnée. On peut ensuite insérer les données contenues dans ces fichier dans nos tuples à l'aide de la commande \copy .  Les données ayant rapport à l'ontologie ont été insérées "manuellement" à l'aide de 'insert values into'.
+
+##Requêtes
+
+Des requêtes ont été généré afin d'interroger notre base de données. Ces reqûetes ont été regroupées dans un script . Ces requêtes m'ont permis de me rendre compte que certains éléments de la base de donnée auraient mérités à être pensé autrement afin de pouvoir faire des requêtes plus précise et intéressantes au niveau de l'ontologie.
+
+
+Exemple de requête effectué:
+
+Observe le potentiel effet du milieu sur la taille moyenne de l'aire racinaire 
+
+select m.type, avg(ph.Root_area)
+from milieu m, boite b, plant p, phenotype ph
+where m.id_boite = b.id_boite and b.plant_id = p.plant_id and p.plant_id = ph.plant_id 
+group by m.type;
+
+
+Résultat de la requête:
+
+ gene_name | count 
+-----------+-------
+ Col_0     |    29
+ nrt       |    76
+ sex1      |    11
+ pgm       |    11
+(4 rows)
+
+
+#Conclusion:
+
+Ainsi nous avons été en mesure de générer une base de donnée permettant de faire des requêtes pour la consultation et potentiellement l'interprétation des résultats obtenus par les M1 BFP . Cette base de données permet aussi de consulter les relations d'ontologies des phénotypes mesurés. Cependant cette ontologie n'a pas été implémenté de manière optimale par manque de comprhéension et de temps pour rattraper les erreurs. Les séquences nucléiques des gènes o,t pu être récupéreés depuis le NCBI puis elles ont pu être analysées àl'aide de BioPython pour nous fournir des informations qui auraient pu être utilisées dans notre base de données. 
