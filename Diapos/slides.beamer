@@ -15,7 +15,8 @@ header-includes:
 - \hypersetup{colorlinks,citecolor=black,filecolor=black,linkcolor=sll_blue,urlcolor=sll_blue}
 ---
 
-# Partie Biopython : Alignement et manipulation des sequences
+## Introduction
+![Gantt Diagram](../img/gantt_2.png){height=95%}
 
 ## Vue d'Ensemble
 ![Biopython Sequence Diagram](../img/AlignmentGlobale.svg){height=95%}
