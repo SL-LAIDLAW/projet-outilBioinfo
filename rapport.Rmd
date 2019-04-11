@@ -19,6 +19,7 @@ header-includes:
 - \usepackage{fancyhdr}
 - \usepackage{upgreek}
 - \usepackage{setspace}
+- \usepackage{pdfpages}
 - \pagestyle{fancy}
 - \fancyhead[LE,RO]{}
 - \fancyhead[LO,RE]{}
@@ -29,7 +30,6 @@ header-includes:
 - \fancyfoot[L]{Université de Montpellier}
 - \fancyfoot[C]{\thepage}
 - \fancyfoot[R]{Master 1 SNS BCD}
-- \usepackage[dvipsnames]{xcolor}
 - \definecolor{sll_blue}{RGB}{10,99,181}
 - \hypersetup{colorlinks,citecolor=black,filecolor=black,linkcolor=sll_blue,urlcolor=sll_blue}
 abstract: "Voici un abstract super intelligent Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. \\par \\textbf{Mot Clés: Phenotypage, Chado, Alignement Globale}"
@@ -44,3 +44,72 @@ knitr::opts_chunk$set(echo = TRUE)
 # Titre eample
 voici du contenu blah blah
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+
+\begin{figure}[h]
+ \centering
+ \includegraphics{Gantt.pdf}
+ \caption{Diagramme de Gantt détaillant le partage des responsabilités par rapport au temps}
+\end{figure}
+
+# Traitements Biopythons et manipulation des séquences
+## Obtention des sequences
+Le jeu de données étant collectionné afin de mieux comprendre les mécanismes physiologiques liés à la croissance des plantes, on a choisi d'étudier le gène SEX1, qui a un rôle dans le dégradation de l'amidon.
+
+Afin de pouvoir démontrer les résultats, le code utilisé, et les explications, on a choisi d'utiliser un Jupyter Notebook. Dans ce dernier nous avons écrit une fonction qui obtient le fichier fasta via une requête Entrez correspondant à l'ARN messager.
+
+Pour l'obtention des séquences mutés cependant, il y avait un choix à faire. En effet, en recherchant la base de données NCBI avec la requête `SEX1[Gene] AND Arabidopsis thaliana[Organism]`, on constate qu'il y a 3 ARNm différents répondant à ces critères. En regardant de plus près cependant, on voit que ce sont des variants d'épissage. Alors que le plupart des aligneurs modernes sont _splice-aware_, l'aligneur que nous avons construit effectue un alignement globale à la base de l'algorithme Needleman-Wunsch et donc ne l'est pas. Ceci veut dire qu'on ne pourrait pas correctement aligner les variants d'épissage contre notre séquence sauvage. Afin d'obtenir une séquence contre lequel on pourrait aligner notre fasta sauvage, on a consulté la base de donnée dbSNP qui détail le [liste des SNP de la gène SEX1](https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?locusId=837619), leurs localisations dans l'ARN messager, et les identifiants de ces SNP. Un peu de vimscript plus tard, et 1/4 des SNP détaillés sur dbSNP étaient appliqués à la fasta du SEX1 sauvage. Le fasta mutant produit, a ensuite été ajouté au projet GitHub afin que le notebook Jupyter puisse le telecharger pour le transformer en objet Seq et l'aligner contre la séquence sauvage.
+
+|                       Used dbSNP IDs                        |||
+|-----------------|--------------|--------------|---------------|
+| rs1105066589    | rs1103971843 | rs1095089377 | rs1100808719  |
+| rs1095780989    | rs1095659046 | rs1097407346 | rs1097236347  |
+| rs1105152302    | rs1097124183 | rs347038182  | rs346885812   |
+| rs1101762250    | rs1100942745 | rs1106840358 | rs346897346   |
+| rs1099291378    | rs1102995172 | rs1096948278 | rs1099609436  |
+| rs1104510198    ||||
+
+Table: Liste des identifiants dbSNP utilisés pour creer le fasta mutant
+
+
+## Alignement Globale
+
+Afin d'aligner les deux séquences, on a utilisé les dataframe de la librarie Pandas. Étant l'objet qui s'approchait le plus d'un tableau, et permettant l'écriture d'une de ses cases avec seulement les coordonnés de la case, il a paru d'être la meilleur solution.
+
+
+Le déroulement de l'alignement se passe dans plusieurs étapes. D'abord il y a l'initiation du tableau, ou le script parcours la longueur des deux séquences convertant chaque nucléotide d'une en colonne et chaque nucléotide de l'autre en ligne.
+
+\newpage
+
+Ensuite, pour la remplissage du tableau les cases ont été remplis avec les valeurs correspondant au statut de match ou mismatch de la nucléotide, ainsi que le score de ses cases voisins d'en haut, à gauche, et en diagonale. En plus de déposant le score dans la case du premier dataframe, une symbole représentant la direction à été inséré dans un autre tableau (<, , ou | ) afin que la fonction suivante puisse suivre le chemin parcouru.
+
+Une fois le tableau rempli, le chemin de retour a été tracé par la fonction traceback qui exploite le modèle de double tableau afin de se baser à la fois sur le score le plus haut, et puis de se déplacer dans la direction qui à amené à ce score. Ensuite avec un alignement obtenu les positions de variations sauvage/mutés, le taux de GC, et la traduction en séquence dacides aminés sont données.
+
+
+\begin{figure}[h]
+ \centering
+ \includegraphics{AlignmentGlobale.pdf}
+ \caption{Diagramme de séquence pour alignement globale}
+\end{figure}
+
+
+
+
+
+### Optimisations
+L'algorithme utilisé pour l'alignement globale souffre de la problème de complexité. En effet, la génération et la remplissage du tableau augmente quadratiquement avec les longeurs de sequences fournis. Où m est le longeur de seqX et n le longueur de seqY, la complexité de temps d'une alignement par cette méthode serait de l'ordre de O(m*n). Pour les séquences recherchés dans ce projet, les longueurs de séquence était à l'ordre du millier, rendant l'alignement très lent.
+
+Afin d'essayer de contourner le problème, des optimisations ont été recherchés. Python n'étant pas la plus vite des langages, nous a amener à utiliser la librairie cython qui convertiras certains de nos fonctions en code C afin de profiter d'une meilleure performance. De plus, on a essayé également de mettre certains fonctions en cache, pour pas qu'il soit recalculé à chaque fois, et enfin on a essayé la librairie JIT qui fait une compilation à la volée. Ce dernier a donnée les résultats les plus prometteurs, mais n'as pas fonctionné avec la fonction le plus lourd de l'alignement car il n'est pas compatible avec pandas.
+
+
+| Optimisation     | Alignment Time (s) |
+|------------------|--------------------|
+| None             | 18.6               |
+| Function Caching | 18.16              |
+| Cython           | 18.02              |
+| JIT Compilation  | 18.22              |
+| Combined         | 18.55              |
+
+Table: Comparaisons d'optimisations et performances
+
+
+
