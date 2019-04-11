@@ -48,4 +48,10 @@ insert into cvterm values (DEFAULT, 4, 'Root Lenght', 'a root lenght (FLOPO_0009
 
 ------------------features--------------------------
 
-insert into features values (DEFAULT, 1, 'Primary Root lenght', 'APO_000001', 1 );
+insert into features values (DEFAULT, 1, 'PR_lenght', 'APO_000001', 1 );
+insert into features values (DEFAULT, 1 , 'LR_lenght', 'APO_000002', 2);
+insert into features values (DEFAULT, 1 ,'ShootArea', 'APO_000003',3);
+insert into features values (DEFAULT, 1 , 'RootArea', 'APO_000004',4);
+insert into features values (DEFAULT, 1 , 'DistanceFromHypocotyl', 'APO_000005',5);
+--insert into features values (DEFAULT, 1 , 'Chlorophylle');
+--insert into features values (DEFAULT, 1 ,);
