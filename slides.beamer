@@ -8,14 +8,50 @@ output:
     theme: "metropolis"
     highlight: zenburn # syntax highlighting chose from "tango", "pygments", "kate", "zenburn", and "github"
     latex_engine: xelatex # "pdflatex", "xelatex", or "lualatex"
+
+link-citations: true
+header-includes:
+- \definecolor{sll_blue}{RGB}{10,99,181}
+- \hypersetup{colorlinks,citecolor=black,filecolor=black,linkcolor=sll_blue,urlcolor=sll_blue}
 ---
 
-# Alignement Globale
-<++>
+# Partie Biopython : Alignement et manipulation des sequences
 
-- Example Table:
+## Vue d'Ensemble
+![Biopython Sequence Diagram](AlignmentGlobale.svg){height=95%}
 
-{\small
+## Recuperation des sequences
+
+- NCBI detient 3 sequences RNAm pour SEX1, et 1 sequence cDNA genomique
+	- Les 3 ne sont pas des mutants, mais des variants d'epissage alternative variants
+
+- les [_SNP variants_](https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?locusId=837619) décrit dans dbSNP servait pour creer le fasta de SEX1 mutant.
+
+|                       Used dbSNP IDs                        |||
+|-----------------|--------------|--------------|---------------|
+| rs1105066589    | rs1103971843 | rs1095089377 | rs1100808719  |
+| rs1095780989    | rs1095659046 | rs1097407346 | rs1097236347  |
+| rs1105152302    | rs1097124183 | rs347038182  | rs346885812   |
+| rs1101762250    | rs1100942745 | rs1106840358 | rs346897346   |
+| rs1099291378    | rs1102995172 | rs1096948278 | rs1099609436  |
+| rs1104510198    ||||
+
+
+## Instantiation du Tableau
+Comment faire le tableau?
+
+- Pour creer un tableau 2D en code, on a utilisé les `DataFrame` de la librarie pandas.
+
+Pourquoi Pandas?
+
+- Permet l'acces et l'enregistrement de données par coordonées de cellule (permettant ecriture automatique)
+
+- permet visualisation de tout le tableau
+
+## Remplissage du Tableau
+- Tableau des scores d'alignements selon le standard du Needleman–Wunsch
+
+\tiny
 
 ```
         G  C  A  T  G  A  C  T  A   A   C   G   T   A   A
@@ -38,5 +74,67 @@ T -15 -11 -5 -1  3  3  3  3  5  5   6   8  10  12  11  10
 A -16 -12 -6  0  2  2  4  3  4  6   7   7   9  11  13  14
 A -17 -13 -7  1  1  1  5  4  3  7   8   7   8  10  14  15
 ```
+\normalsize
 
-}
+
+## Remplissage du Tableau
+- Dans un autre tableau le direction qui a amené au score a été enregistré
+- permet à l'algorithme d'ensuite effectuer le backtracking
+
+<!--
+|Symbol|Direction|
+|:--:|:--:|
+|\| |En Haut|
+|\|Diagonal|
+|<|Gauche|
+-->
+
+\tiny
+```
+          G    C    A    T    G    A    C    T    A    A    A    A
+   NaN  NaN  NaN  NaN  NaN  NaN  NaN  NaN  NaN  NaN  NaN  NaN  NaN
+G  NaN    \    <    <    <    <    <    <    <    <    <    <    <
+C  NaN    |    \    <    <    <   \<   \<    <    <    <    <    <
+C  NaN    |    |    <    <    <    <   |<    <    <    <    <    <
+T  NaN    |    |    \   \<    <    <    <   \<    <    <    <    <
+T  NaN    |    |   |\    |    <    <    <   |<    <    <    <    <
+A  NaN    |    |   |\    |    \   \<    <    <   \<    <    <    <
+C  NaN    |    |    |    |   |\    |    \    <    <    |    |    |
+T  NaN    |    |   |\    |    <    |    |    \    <    <   |<    |
+A  NaN    |    |   |\    |    \  |\<    |    |    \    <    <    <
+A  NaN    |    |    |   |<   |\    |    <    |    |   |<   |<   |<
+G  NaN    |    |    |    \  |\<    |    \    |    |    |    |    |
+T  NaN    |    |    |   |\   |<    |   |\   |\    |    |    |    |
+A  NaN    |    |    |    |    \    |    <    |    |   |<   |<   |<
+A  NaN    |    |    |    <  |\<    |    <   |<    |   |<   |<   |<
+```
+\normalsize
+
+## Backtracking du Tableau
+
+- la sortie du fonction est deux listes contenant le version aligné des deux sequences.
+
+SeqA = ['G', '-', 'A', 'T', 'T', 'A', 'C', 'A', 'A']
+
+SeqB = ['G', 'C', 'A', 'T', '-', 'G', 'C', '-', 'U']
+
+Variations = {1, 4, 5, 7, 8}
+
+
+## Problèmes d'Alignement
+
+| Optimisation     | Alignment Time (s) |
+|------------------|--------------------|
+| None             | 18.6               |
+| Function Caching | 18.16              |
+| Cython           | 18.02              |
+| JIT Compilation  | 18.22              |
+| Combined         | 18.55              |
+
+
+## Schema de la base de données
+
+
+![DB Class Diagram](class_diagram.svg){height=95%}
+
+
