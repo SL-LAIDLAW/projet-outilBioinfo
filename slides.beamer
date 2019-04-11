@@ -145,3 +145,23 @@ Variations = {1, 4, 5, 7, 8}
 ![DB Class Diagram](class_diagram.svg){height=95%}
 
 
+##Requêtes
+
+select m.type, avg(ph.Root_area)
+from milieu m, boite b, plant p, phenotype ph
+where m.id_boite = b.id_boite and b.plant_id = p.plant_id and p.plant_id = ph.plant_id 
+group by m.type;
+
+
+
+ gene_name | count 
+-----------+-------
+ Col_0     |    29
+ nrt       |    76
+ sex1      |    11
+ pgm       |    11
+
+Table: Résultat de la requête:
+
+
+
