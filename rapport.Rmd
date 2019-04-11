@@ -15,6 +15,7 @@ geometry: margin=1in
 link-citations: true
 # reference specific options
 header-includes:
+- \usepackage{float}
 - \usepackage{longtable}
 - \usepackage{fancyhdr}
 - \usepackage{upgreek}
@@ -53,7 +54,7 @@ Nous avons ainsi établi le diagramme de Gantt suivant.
 
 De cette réflexion initiale surle projet nous avons pu en établir le diagramme de cas d'utilisation suivant.
 
-\begin{figure}[h]
+\begin{figure}[H]
  \centering
  \includegraphics{Cas_utilisation.pdf}
  \caption{Diagramme de Cas d'Utilisation}
@@ -93,7 +94,7 @@ Ensuite, pour la remplissage du tableau les cases ont été remplis avec les val
 Une fois le tableau rempli, le chemin de retour a été tracé par la fonction traceback qui exploite le modèle de double tableau afin de se baser à la fois sur le score le plus haut, et puis de se déplacer dans la direction qui à amené à ce score. Ensuite avec un alignement obtenu les positions de variations sauvage/mutés, le taux de GC, et la traduction en séquence dacides aminés sont données.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
  \centering
  \includegraphics{AlignmentGlobale.pdf}
  \caption{Diagramme de séquence pour alignement globale}
