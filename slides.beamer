@@ -156,13 +156,13 @@ p.plant_id and p.plant_id = ph.plant_id
 group by m.type;
 ```
 
-
- gene_name | count
------------+-------
- Col_0     |    29
- nrt       |    76
- sex1      |    11
- pgm       |    11
+   type   |        avg        
+----------+-------------------
+ Milieu_5 | 0.127835366556921
+ Milieu_1 | 0.179657717053341
+ Milieu_2 | 0.309144144189787
+ Milieu_3 | 0.151981368513419
+ Milieu_4 | 0.302773334148029
 
 Table: Résultat de la requête:
 
