@@ -15,6 +15,7 @@ geometry: margin=1in
 link-citations: true
 # reference specific options
 header-includes:
+- \usepackage{float}
 - \usepackage{longtable}
 - \usepackage{fancyhdr}
 - \usepackage{upgreek}
@@ -42,7 +43,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-	
+
 On nous a ainsi demandé de créer une base de donnée permettant d'organiser et stocker les données expérimentales et les ontologies associés des M1 BFP.
 
 Au début du projet nous avons tout d'abord eu une phase de réfexion initiale dsur le projet.
@@ -50,15 +51,15 @@ Nous avons ainsi établi le diagramme de Gantt suivant.
 
 \begin{figure}[h]
  \centering
- \includegraphics{gantt_2.png}
+ \includegraphics{../img/gantt_2.png}
  \caption{Diagramme de Gantt détaillant le partage des responsabilités par rapport au temps}
 \end{figure}
 
 De cette réflexion initiale surle projet nous avons pu en établir le diagramme de cas d'utilisation suivant.
 
-\begin{figure}[h]
+\begin{figure}[H]
  \centering
- \includegraphics{Cas_utilisation.pdf}
+ \includegraphics{../img/Cas_utilisation.pdf}
  \caption{Diagramme de Cas d'Utilisation}
 \end{figure}
 
@@ -96,9 +97,9 @@ Ensuite, pour la remplissage du tableau les cases ont été remplis avec les val
 Une fois le tableau rempli, le chemin de retour a été tracé par la fonction traceback qui exploite le modèle de double tableau afin de se baser à la fois sur le score le plus haut, et puis de se déplacer dans la direction qui à amené à ce score. Ensuite avec un alignement obtenu les positions de variations sauvage/mutés, le taux de GC, et la traduction en séquence dacides aminés sont données.
 
 
-\begin{figure}[h]
+\begin{figure}[H]
  \centering
- \includegraphics{AlignmentGlobale.pdf}
+ \includegraphics{../img/AlignmentGlobale.pdf}
  \caption{Diagramme de séquence pour alignement globale}
 \end{figure}
 
@@ -140,15 +141,15 @@ Nous retrouvons ansi avec une base de données correspondant au diagramme de cla
 
 \begin{figure}[h]
  \centering
- \includegraphics{class_diagram.pdf}
+ \includegraphics{../img/class_diagram.pdf}
  \caption{Diagramme de classe}
 \end{figure}
 
 
 ## Ontologie
 
-Il a ainsi fallu penser à la manière d'intégrer l'ontologie dans notre base de données . L'ontologie va représenter des concepts (comme une caractéristique phénotypique) et les relations que ces concepts peuvent partager. Dans notre cas on s'est intéressé à rechercher les relations entre les termes ontologiques constituant les phénotypes observés et mesurés par les étudiants BFP. Pour ce faire ces phénotypes ont été "décomposé" en plusieurs  termes ontologiques (si besoin) qui ont été ensuite associé en une relation. 
-Par exemple, la longueur de la racine primaire va correspondre à une longueur de racine (possédant son terme ontologique) qui ferait partie (is part of) d'une racine primaire (possédant aussi son propre terme ontologique). ces données générées seront ensuite insérées dans notre base de données. 
+Il a ainsi fallu penser à la manière d'intégrer l'ontologie dans notre base de données . L'ontologie va représenter des concepts (comme une caractéristique phénotypique) et les relations que ces concepts peuvent partager. Dans notre cas on s'est intéressé à rechercher les relations entre les termes ontologiques constituant les phénotypes observés et mesurés par les étudiants BFP. Pour ce faire ces phénotypes ont été "décomposé" en plusieurs  termes ontologiques (si besoin) qui ont été ensuite associé en une relation.
+Par exemple, la longueur de la racine primaire va correspondre à une longueur de racine (possédant son terme ontologique) qui ferait partie (is part of) d'une racine primaire (possédant aussi son propre terme ontologique). ces données générées seront ensuite insérées dans notre base de données.
 Ces données peuvent être récupérées grâce à de nombreuses ressources regroupant les termes d'ontologies appartenant à un même "groupe". Au cours de ce projet nous avons principalement utilisé les ressources PATO, PO, TO et FLOPO.
 
 
@@ -182,7 +183,7 @@ group by m.type;
 
 
 
-   type   |        avg        
+   type   |        avg
 ----------+-------------------
  Milieu_5 | 0.127835366556921
  Milieu_1 | 0.179657717053341

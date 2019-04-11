@@ -115,13 +115,17 @@
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
+On nous a ainsi demandé de créer une base de donnée permettant
+d'organiser et stocker les données expérimentales et les ontologies
+associés des M1 BFP.
+
 Au début du projet nous avons tout d'abord eu une phase de réfexion
 initiale dsur le projet. Nous avons ainsi établi le diagramme de Gantt
 suivant.
 
 \begin{figure}[h]
  \centering
- \includegraphics{../img/Gantt.pdf}
+ \includegraphics{../img/gantt_2.png}
  \caption{Diagramme de Gantt détaillant le partage des responsabilités par rapport au temps}
 \end{figure}
 
@@ -300,7 +304,7 @@ Avec le recul cette manière de faire n'était probablement pas la
 meilleure et des améliorations doivent être apportés principalement pour
 la partie gérant l'ontologie.
 
-Nous retrouvons ansi avec une base de données corrspondant au diagramme
+Nous retrouvons ansi avec une base de données correspondant au diagramme
 de classe suivant:
 
 \begin{figure}[h]
@@ -318,14 +322,15 @@ caractéristique phénotypique) et les relations que ces concepts peuvent
 partager. Dans notre cas on s'est intéressé à rechercher les relations
 entre les termes ontologiques constituant les phénotypes observés et
 mesurés par les étudiants BFP. Pour ce faire ces phénotypes ont été
-``décomposé'' en plusieurs et leur terme ontologique ont été associé en
-une relation. Par exemple, la longueur de la racine primaire va
-corrrespondre à une longueur de racine (possédant son terme ontologique)
-qui ferait partie (is part of) d'une racine primaire(possédant aussi son
-propre terme ontologique). ces données générées seront ensuite insérées
-dans notre base de données. Ces données peuvent être récupérées grâce à
-de nombreuses ressources regroupant les termes d'ontologies appartenant
-à un même ``groupe''.
+``décomposé'' en plusieurs termes ontologiques (si besoin) qui ont été
+ensuite associé en une relation. Par exemple, la longueur de la racine
+primaire va correspondre à une longueur de racine (possédant son terme
+ontologique) qui ferait partie (is part of) d'une racine primaire
+(possédant aussi son propre terme ontologique). ces données générées
+seront ensuite insérées dans notre base de données. Ces données peuvent
+être récupérées grâce à de nombreuses ressources regroupant les termes
+d'ontologies appartenant à un même ``groupe''. Au cours de ce projet
+nous avons principalement utilisé les ressources PATO, PO, TO et FLOPO.
 
 \hypertarget{implementation-bases-de-donnees-et-peuplement}{%
 \subsection{Implémentation bases de données et
@@ -336,14 +341,16 @@ peuplement}\label{implementation-bases-de-donnees-et-peuplement}}
 
 Afin de créer les tables un script SQL de création de ces tables à été
 écrit. Celui-ci va constituer dans un premier temps en la destruction
-des tables et de leurs contraintes dans le cas à l'aide d'un drop table.
-Il va ensuite permettre de construire ces tables en affectant les clefs
+des tables et de leurs contraintes à l'aide d'un drop table. Il va
+ensuite permettre de construire ces tables en affectant les clefs
 primaires et étrangères appropriés à chaque table.
 
 Afin de générer les tables nécessaires à l'ontologie, le module cv de
 Chado à été utilisé. Je me rends compte cependant à l'écriture de ce
 rapport que j'ai mal compris et mal utilisé ce module cv, notamment en
-n'utilisant pas la table cv\_term relationship.
+n'utilisant pas la table cv\_term relationship. J'aurais également pu
+voire même du utiliser le module phenotype au lieu du module séquence
+celui-ci étant probablement bien plus adapté.
 
 \hypertarget{insertion-des-donnees-dans-les-tuples}{%
 \subsubsection{Insertion des données dans les
@@ -382,17 +389,18 @@ group by m.type;
 \begin{longtable}[]{@{}ll@{}}
 \caption{Résultat de la requête}\tabularnewline
 \toprule
-gene\_name & count\tabularnewline
+type & avg\tabularnewline
 \midrule
 \endfirsthead
 \toprule
-gene\_name & count\tabularnewline
+type & avg\tabularnewline
 \midrule
 \endhead
-Col\_0 & 29\tabularnewline
-nrt & 76\tabularnewline
-sex1 & 11\tabularnewline
-pgm & 11\tabularnewline
+Milieu\_5 & 0.127835366556921\tabularnewline
+Milieu\_1 & 0.179657717053341\tabularnewline
+Milieu\_2 & 0.309144144189787\tabularnewline
+Milieu\_3 & 0.151981368513419\tabularnewline
+Milieu\_4 & 0.302773334148029\tabularnewline
 \bottomrule
 \end{longtable}
 
@@ -404,11 +412,11 @@ de faire des requêtes pour la consultation et potentiellement
 l'interprétation des résultats obtenus par les M1 BFP . Cette base de
 données permet aussi de consulter les relations d'ontologies des
 phénotypes mesurés. Cependant cette ontologie n'a pas été implémenté de
-manière optimale par manque de comprhéension et de temps pour rattraper
-les erreurs. Les séquences nucléiques des gènes o,t pu être récupéreés
-depuis le NCBI puis elles ont pu être analysées àl'aide de BioPython
-pour nous fournir des informations qui auraient pu être utilisées dans
-notre base de données.
+manière optimale par manque de comprhéension de l'ontologie et du
+fonctionnement de Chado au moment de sa création. Les séquences
+nucléiques des gènes ont pu être récupéreés depuis le NCBI puis elles
+ont pu être analysées à l'aide de BioPython pour nous fournir des
+informations qui auraient pu être utilisées dans notre base de données.
 
 
 \end{document}
