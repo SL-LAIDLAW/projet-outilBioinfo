@@ -64,7 +64,7 @@ create table cvterm(cvterm_id serial not null,
 create table features(feature_id serial not null,
     primary key (feature_id),  organism_id int not null,
     constraint f1_fk foreign key (organism_id) references phenotype (organism_id) on delete cascade INITIALLY DEFERRED,
-    name varchar(20),
+    name varchar(100),
     uniquename text not null, type_id int not null,
     constraint f2_fk foreign key (type_id) references cvterm (cvterm_id) on delete cascade INITIALLY DEFERRED);
 ---------table cvrelationship###

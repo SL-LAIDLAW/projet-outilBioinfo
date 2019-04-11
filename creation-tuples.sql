@@ -48,8 +48,8 @@ insert into cvterm values (DEFAULT, 5, 'Root Lenght', 'a root lenght (FLOPO_0009
 insert into cvterm values (DEFAULT, 5, 'Root Lenght', 'a root lenght (FLOPO_0009325) which is part of a lateral root (PO_0020121');
 insert into cvterm values (DEFAULT, 5, 'area', 'an area (PATO_0001323 which is part of the shoot axis (PO_0025029)');
 insert into cvterm values (DEFAULT, 5, 'area', 'an area (PATO_0001323) which is part of the root (PO_0009005)');
-insert into cvterm values (DEFAULT, 5, 'distance', 'a distance(PATO_000040) between roots (PO_0009005) and hypocotyl (PO_0020100)';
-insert into cvterm values (DEFAULT, 4, 'chlorophyll contents', 'Measures the chlorophyll content in a green tissue. Includes both chlorophyll-a and chlorophyll-b. Chlorophyll is the green pigment found in plants.';
+insert into cvterm values (DEFAULT, 5, 'distance', 'a distance(PATO_000040) between roots (PO_0009005) and hypocotyl (PO_0020100)');
+insert into cvterm values (DEFAULT, 4, 'chlorophyll contents', 'Measures the chlorophyll content in a green tissue. Includes both chlorophyll-a and chlorophyll-b. Chlorophyll is the green pigment found in plants.');
 insert into cvterm values (DEFAULT, 5, 'curvature', 'a curvature (PATO_0001591) which is part of roots (PO_0009005)');
 
 ------------------features--------------------------
