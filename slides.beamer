@@ -30,7 +30,8 @@ header-includes:
 ## Recuperation des sequences
 - les [_SNP variants_](https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?locusId=837619) décrit dans dbSNP servait pour creer le fasta de SEX1 mutant.
 
-![dbSNP page for geneID:837619](img/1554985959-19315.png)
+![dbSNP page for geneID:837619](dbsnp.png)
+
 
 ## Recuperation des sequences
 
@@ -145,16 +146,18 @@ Variations = {1, 4, 5, 7, 8}
 ![DB Class Diagram](class_diagram.svg){height=95%}
 
 
-##Requêtes
+## Requêtes
 
+```
 select m.type, avg(ph.Root_area)
 from milieu m, boite b, plant p, phenotype ph
-where m.id_boite = b.id_boite and b.plant_id = p.plant_id and p.plant_id = ph.plant_id 
+where m.id_boite = b.id_boite and b.plant_id = \
+p.plant_id and p.plant_id = ph.plant_id
 group by m.type;
+```
 
 
-
- gene_name | count 
+ gene_name | count
 -----------+-------
  Col_0     |    29
  nrt       |    76
