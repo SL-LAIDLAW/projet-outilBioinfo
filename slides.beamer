@@ -15,11 +15,10 @@ header-includes:
 - \hypersetup{colorlinks,citecolor=black,filecolor=black,linkcolor=sll_blue,urlcolor=sll_blue}
 ---
 
-## Introduction
-![Gantt Diagram](../img/gantt_2.png){height=95%}
+# Partie Biopython : Alignement et manipulation des sequences
 
 ## Vue d'Ensemble
-![Biopython Sequence Diagram](../img/AlignmentGlobale.svg){height=95%}
+![Biopython Sequence Diagram](AlignmentGlobale.svg){height=95%}
 
 ## Recuperation des sequences
 
@@ -31,7 +30,7 @@ header-includes:
 ## Recuperation des sequences
 - les [_SNP variants_](https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?locusId=837619) décrit dans dbSNP servait pour creer le fasta de SEX1 mutant.
 
-![dbSNP page for geneID:837619](../img/dbsnp.png)
+![dbSNP page for geneID:837619](dbsnp.png)
 
 
 ## Recuperation des sequences
@@ -144,7 +143,7 @@ Variations = {1, 4, 5, 7, 8}
 ## Schema de la base de données
 
 
-![DB Class Diagram](../img/class_diagram.svg){height=95%}
+![DB Class Diagram](class_diagram.svg){height=95%}
 
 
 ## Ontologies et Module cv
@@ -189,7 +188,7 @@ p.plant_id and p.plant_id = ph.plant_id
 group by m.type;
 ```
 
-   type   |        avg
+   type   |        avg        
 ----------+-------------------
  Milieu_5 | 0.127835366556921
  Milieu_1 | 0.179657717053341
