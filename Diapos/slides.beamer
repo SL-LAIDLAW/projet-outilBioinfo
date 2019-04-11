@@ -149,7 +149,9 @@ Variations = {1, 4, 5, 7, 8}
 
 ## Ontologies et Module cv
 
- feature_id | organism_id |         name          | uniquename | type_id 
+\footnotesize
+
+ feature_id | organism_id |         name          | uniquename | type_id
 ------------+-------------+-----------------------+------------+---------
           1 |           1 | PR_lenght             | APO_000001 |       1
           2 |           1 | LR_lenght             | APO_000002 |       2
@@ -161,10 +163,13 @@ Variations = {1, 4, 5, 7, 8}
 
 Table: Table features
 
+\normalsize
 
 ## Ontologies et Module cv
 
- cvterm_id | cv_id |         name         |                                                                      definition                                                                      
+\tiny
+
+ cvterm_id | cv_id |         name         |                                                                      definition
 -----------+-------+----------------------+------------------------------------------------------------------------------------------------------------------------------------------------------
          1 |     5 | Root Lenght          | a root lenght (FLOPO_0009325) which is part of a primary root (PO_0020127
          2 |     5 | Root Lenght          | a root lenght (FLOPO_0009325) which is part of a lateral root (PO_0020121
@@ -176,6 +181,7 @@ Table: Table features
 
 Table: Table cvterm
 
+\normalsize
 
 
 
