@@ -25,7 +25,14 @@ header-includes:
 - NCBI detient 3 sequences RNAm pour SEX1, et 1 sequence cDNA genomique
 	- Les 3 ne sont pas des mutants, mais des variants d'epissage alternative variants
 
+
+
+## Recuperation des sequences
 - les [_SNP variants_](https://www.ncbi.nlm.nih.gov/SNP/snp_ref.cgi?locusId=837619) décrit dans dbSNP servait pour creer le fasta de SEX1 mutant.
+
+![dbSNP page for geneID:837619](img/1554985959-19315.png)
+
+## Recuperation des sequences
 
 |                       Used dbSNP IDs                        |||
 |-----------------|--------------|--------------|---------------|
